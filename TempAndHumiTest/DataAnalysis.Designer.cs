@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxNum = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -48,6 +48,9 @@
             this.BtnSearch = new System.Windows.Forms.Button();
             this.labelTitle = new System.Windows.Forms.Label();
             this.labelClose = new System.Windows.Forms.Label();
+            this.buttonNext = new System.Windows.Forms.Button();
+            this.buttonPrev = new System.Windows.Forms.Button();
+            this.labelPage = new System.Windows.Forms.Label();
             this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.menu.SuspendLayout();
@@ -101,6 +104,9 @@
             // panel
             // 
             this.panel.BackColor = System.Drawing.SystemColors.Control;
+            this.panel.Controls.Add(this.labelPage);
+            this.panel.Controls.Add(this.buttonPrev);
+            this.panel.Controls.Add(this.buttonNext);
             this.panel.Controls.Add(this.label3);
             this.panel.Controls.Add(this.comboBoxType);
             this.panel.Controls.Add(this.chart);
@@ -141,79 +147,79 @@
             // 
             // chart
             // 
-            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisX.MajorTickMark.Interval = 0D;
-            chartArea1.AxisX.MajorTickMark.IntervalOffset = 0D;
-            chartArea1.AxisX.ScaleBreakStyle.Enabled = true;
-            chartArea1.AxisX.Title = "采集时间";
-            chartArea1.AxisX.TitleAlignment = System.Drawing.StringAlignment.Far;
-            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisY.Title = "温度";
-            chartArea1.AxisY.TitleAlignment = System.Drawing.StringAlignment.Near;
-            chartArea1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            chartArea1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.HorizontalCenter;
-            chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.InnerPlotPosition.Auto = false;
-            chartArea1.InnerPlotPosition.Height = 80F;
-            chartArea1.InnerPlotPosition.Width = 94F;
-            chartArea1.InnerPlotPosition.X = 4F;
-            chartArea1.InnerPlotPosition.Y = 2F;
-            chartArea1.IsSameFontSizeForAllAxes = true;
-            chartArea1.Name = "TempChartArea";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 45.5F;
-            chartArea1.Position.Width = 82.99178F;
-            chartArea1.Position.X = 3F;
-            chartArea1.Position.Y = 3F;
-            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisX.Title = "采集时间";
-            chartArea2.AxisX.TitleAlignment = System.Drawing.StringAlignment.Far;
-            chartArea2.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisY.Title = "湿度";
-            chartArea2.AxisY.TitleAlignment = System.Drawing.StringAlignment.Near;
-            chartArea2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            chartArea2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.HorizontalCenter;
-            chartArea2.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.InnerPlotPosition.Auto = false;
-            chartArea2.InnerPlotPosition.Height = 80F;
-            chartArea2.InnerPlotPosition.Width = 94F;
-            chartArea2.InnerPlotPosition.X = 4F;
-            chartArea2.InnerPlotPosition.Y = 2F;
-            chartArea2.IsSameFontSizeForAllAxes = true;
-            chartArea2.Name = "HumiChartArea";
-            chartArea2.Position.Auto = false;
-            chartArea2.Position.Height = 45.5F;
-            chartArea2.Position.Width = 82.99178F;
-            chartArea2.Position.X = 3F;
-            chartArea2.Position.Y = 51.5F;
-            this.chart.ChartAreas.Add(chartArea1);
-            this.chart.ChartAreas.Add(chartArea2);
-            legend1.Name = "Legend";
-            this.chart.Legends.Add(legend1);
-            this.chart.Location = new System.Drawing.Point(0, 61);
+            chartArea5.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea5.AxisX.MajorTickMark.Interval = 0D;
+            chartArea5.AxisX.MajorTickMark.IntervalOffset = 0D;
+            chartArea5.AxisX.ScaleBreakStyle.Enabled = true;
+            chartArea5.AxisX.Title = "采集时间";
+            chartArea5.AxisX.TitleAlignment = System.Drawing.StringAlignment.Far;
+            chartArea5.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea5.AxisY.Title = "温度";
+            chartArea5.AxisY.TitleAlignment = System.Drawing.StringAlignment.Near;
+            chartArea5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            chartArea5.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.HorizontalCenter;
+            chartArea5.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chartArea5.InnerPlotPosition.Auto = false;
+            chartArea5.InnerPlotPosition.Height = 80F;
+            chartArea5.InnerPlotPosition.Width = 94F;
+            chartArea5.InnerPlotPosition.X = 4F;
+            chartArea5.InnerPlotPosition.Y = 2F;
+            chartArea5.IsSameFontSizeForAllAxes = true;
+            chartArea5.Name = "TempChartArea";
+            chartArea5.Position.Auto = false;
+            chartArea5.Position.Height = 45.5F;
+            chartArea5.Position.Width = 82.99178F;
+            chartArea5.Position.X = 3F;
+            chartArea5.Position.Y = 3F;
+            chartArea6.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea6.AxisX.Title = "采集时间";
+            chartArea6.AxisX.TitleAlignment = System.Drawing.StringAlignment.Far;
+            chartArea6.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea6.AxisY.Title = "湿度";
+            chartArea6.AxisY.TitleAlignment = System.Drawing.StringAlignment.Near;
+            chartArea6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            chartArea6.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.HorizontalCenter;
+            chartArea6.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chartArea6.InnerPlotPosition.Auto = false;
+            chartArea6.InnerPlotPosition.Height = 80F;
+            chartArea6.InnerPlotPosition.Width = 94F;
+            chartArea6.InnerPlotPosition.X = 4F;
+            chartArea6.InnerPlotPosition.Y = 2F;
+            chartArea6.IsSameFontSizeForAllAxes = true;
+            chartArea6.Name = "HumiChartArea";
+            chartArea6.Position.Auto = false;
+            chartArea6.Position.Height = 45.5F;
+            chartArea6.Position.Width = 82.99178F;
+            chartArea6.Position.X = 3F;
+            chartArea6.Position.Y = 51.5F;
+            this.chart.ChartAreas.Add(chartArea5);
+            this.chart.ChartAreas.Add(chartArea6);
+            legend3.Name = "Legend";
+            this.chart.Legends.Add(legend3);
+            this.chart.Location = new System.Drawing.Point(45, 62);
             this.chart.Name = "chart";
-            series1.ChartArea = "TempChartArea";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend";
-            series1.MarkerBorderColor = System.Drawing.Color.MistyRose;
-            series1.MarkerSize = 0;
-            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
-            series1.Name = "温度 ";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series1.YValuesPerPoint = 6;
-            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series2.ChartArea = "HumiChartArea";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Legend = "Legend";
-            series2.MarkerBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            series2.MarkerSize = 0;
-            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
-            series2.Name = "湿度";
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart.Series.Add(series1);
-            this.chart.Series.Add(series2);
-            this.chart.Size = new System.Drawing.Size(975, 435);
+            series5.ChartArea = "TempChartArea";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Legend = "Legend";
+            series5.MarkerBorderColor = System.Drawing.Color.MistyRose;
+            series5.MarkerSize = 0;
+            series5.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
+            series5.Name = "温度 ";
+            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series5.YValuesPerPoint = 6;
+            series5.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series6.ChartArea = "HumiChartArea";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series6.Legend = "Legend";
+            series6.MarkerBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            series6.MarkerSize = 0;
+            series6.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
+            series6.Name = "湿度";
+            series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series6.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart.Series.Add(series5);
+            this.chart.Series.Add(series6);
+            this.chart.Size = new System.Drawing.Size(876, 435);
             this.chart.TabIndex = 10;
             this.chart.Text = "chart1";
             // 
@@ -294,6 +300,52 @@
             this.labelClose.MouseEnter += new System.EventHandler(this.labelClose_MouseEnter);
             this.labelClose.MouseLeave += new System.EventHandler(this.labelClose_MouseLeave);
             // 
+            // buttonNext
+            // 
+            this.buttonNext.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.buttonNext.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.buttonNext.FlatAppearance.BorderSize = 0;
+            this.buttonNext.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.buttonNext.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.buttonNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonNext.ForeColor = System.Drawing.SystemColors.Control;
+            this.buttonNext.Location = new System.Drawing.Point(620, 35);
+            this.buttonNext.Name = "buttonNext";
+            this.buttonNext.Size = new System.Drawing.Size(45, 23);
+            this.buttonNext.TabIndex = 13;
+            this.buttonNext.Text = "》》";
+            this.buttonNext.UseVisualStyleBackColor = false;
+            this.buttonNext.Visible = false;
+            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+            // 
+            // buttonPrev
+            // 
+            this.buttonPrev.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.buttonPrev.FlatAppearance.BorderColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.buttonPrev.FlatAppearance.BorderSize = 0;
+            this.buttonPrev.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.buttonPrev.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.buttonPrev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPrev.ForeColor = System.Drawing.SystemColors.Control;
+            this.buttonPrev.Location = new System.Drawing.Point(504, 34);
+            this.buttonPrev.Name = "buttonPrev";
+            this.buttonPrev.Size = new System.Drawing.Size(39, 23);
+            this.buttonPrev.TabIndex = 14;
+            this.buttonPrev.Text = "《《";
+            this.buttonPrev.UseVisualStyleBackColor = false;
+            this.buttonPrev.Visible = false;
+            this.buttonPrev.Click += new System.EventHandler(this.buttonPrev_Click);
+            // 
+            // labelPage
+            // 
+            this.labelPage.AutoSize = true;
+            this.labelPage.Location = new System.Drawing.Point(566, 40);
+            this.labelPage.Name = "labelPage";
+            this.labelPage.Size = new System.Drawing.Size(35, 12);
+            this.labelPage.TabIndex = 15;
+            this.labelPage.Text = "00/00";
+            this.labelPage.Visible = false;
+            // 
             // DataAnalysis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -332,5 +384,8 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBoxType;
+        private System.Windows.Forms.Button buttonPrev;
+        private System.Windows.Forms.Button buttonNext;
+        private System.Windows.Forms.Label labelPage;
     }
 }

@@ -30,7 +30,7 @@ namespace TempAndHumiTest
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern bool ReleaseCapture();
 
-
+        private DateTime prvTime = DateTime.MinValue;
 
         private const int WM_NCHITTEST = 0x0084;
         private const int HT_LEFT = 10;
@@ -175,15 +175,27 @@ namespace TempAndHumiTest
             string sql = "CREATE TABLE IF NOT EXISTS  Test3(id integer NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,";
             sql += "Num integer,Temp double,Humi double,Time datetime)";
             db.ExecuteNonQuery(sql, null);
-            
+            prvTime = DateTime.Now;
         }
 
-        protected static void InsertData(int Num, double Temp, double Humi)
+        protected void InsertData(int Num, double Temp, double Humi)
         {
-            InsertData(Num, Temp, Humi, DateTime.Now);
+            if (prvTime == DateTime.MinValue)
+            {
+                prvTime = DateTime.Now;
+                InsertData(Num, Temp, Humi, DateTime.Now);
+            }else
+            {
+
+                if (DateDiff(prvTime, DateTime.Now) > 5)
+                {
+                    InsertData(Num, Temp, Humi, DateTime.Now);
+                }
+            }
+
         }
 
-        protected static void InsertData(int Num, double Temp, double Humi, DateTime time)
+        protected void InsertData(int Num, double Temp, double Humi, DateTime time)
         {
             string sql = "INSERT INTO Test3(Num,Temp,Humi,Time)values(@Num,@Temp,@Humi,@Time)";
             SQLiteDBHelper db = new SQLiteDBHelper(dbPath);
@@ -933,7 +945,29 @@ namespace TempAndHumiTest
 
         private void aboutMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("佛山市川东磁电股份有限公司专用温湿度模块测试软件\r\n作者：张润胜\r\n作者网站：http://sengmitnick.com/ \r\n公司网站：http://www.cdm21.com/ \r\n", "关于");
+            //MessageBox.Show("prvTime:" + prvTime.ToString()+";now:"+DateTime.Now+";"+ DateDiff(DateTime.Now, prvTime));
+            
+            MessageBox.Show("佛山市川东磁电股份有限公司专用温湿度模块测试软件\r\n作者：张润胜\r\n作者网站：http://smk17.cn/ \r\n公司网站：http://www.cdm21.com/ \r\n", "关于");
+        }
+
+        private int DateDiff(DateTime DateTime1, DateTime DateTime2)
+        {
+            int dateDiff = -1;
+            try
+            {
+                TimeSpan ts1 = new TimeSpan(DateTime1.Ticks);
+                TimeSpan ts2 = new TimeSpan(DateTime2.Ticks);
+                TimeSpan ts = ts1.Subtract(ts2).Duration();
+                dateDiff = (int)ts.TotalSeconds;
+                //dateDiff = ts.Days.ToString() + "天"
+                //+ ts.Hours.ToString() + "小时"
+                //+ ts.Minutes.ToString() + "分钟"
+                //+ ts.Seconds.ToString() + "秒";
+            }
+            catch
+            {
+            }
+            return dateDiff;
         }
 
         private void labelClose_Click(object sender, EventArgs e)

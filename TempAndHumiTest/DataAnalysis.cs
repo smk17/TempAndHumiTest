@@ -7,6 +7,7 @@ using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -15,6 +16,8 @@ namespace TempAndHumiTest
     public partial class DataAnalysis : Form
     {
         private static string dbPath = "";
+        private List<DataTable> DtList = new List<DataTable>();
+        private int index = 0;
         public DataAnalysis()
         {
             InitializeComponent();
@@ -337,40 +340,20 @@ namespace TempAndHumiTest
             }
         }
 
-        public void initialChart(int Num, DateTime Time)
+        public void initialChart()
         {
-            DataTable DtTemp = new DataTable();
-            DtTemp.Columns.Add("温度", typeof(string));
-            DtTemp.Columns.Add("时间", typeof(DateTime));
-
-            DataTable DtHumi = new DataTable();
-            DtHumi.Columns.Add("湿度", typeof(string));
-            DtHumi.Columns.Add("时间", typeof(DateTime));
-
-            string sql = "SELECT * FROM Test3 WHERE Num=@Num AND Time>@StartTime AND Time<@EndTime order by id";
+            int Num = int.Parse(this.comboBoxNum.Text);
+            DateTime Time = this.dateTimePicker.Value;
+            string sql = "SELECT min(Temp),max(Temp),min(Humi),max(Humi) FROM Test3 WHERE Num=@Num AND Time>@StartTime AND Time<@EndTime ";
             SQLiteParameter[] parameters = new SQLiteParameter[]{
                 new SQLiteParameter("@Num",Num),
                 new SQLiteParameter("@StartTime",Time.Date.ToString("yyyy-MM-dd HH:mm:ss")),
                 new SQLiteParameter("@EndTime",Time.Date.AddDays(1).ToString("yyyy-MM-dd HH:mm:ss"))
             };
-            
             SQLiteDBHelper db = new SQLiteDBHelper(dbPath);
             SQLiteDataReader reader = db.ExecuteReader(sql, parameters);
-
             if (reader.HasRows)
             {
-                using (reader)
-                {
-                    while (reader.Read())
-                    {
-                        //this.chart.Series["温度"].XValueMember = 
-                        DtTemp.Rows.Add(reader.GetDouble(2).ToString("#0.00"), reader.GetDateTime(4));
-                        DtHumi.Rows.Add(reader.GetDouble(3).ToString("#0.00"), reader.GetDateTime(4));
-                    }
-                }
-
-                sql = "SELECT min(Temp),max(Temp),min(Humi),max(Humi) FROM Test3 WHERE Num=@Num AND Time>@StartTime AND Time<@EndTime ";
-                reader = db.ExecuteReader(sql, parameters);
                 using (reader)
                 {
                     while (reader.Read())
@@ -383,17 +366,49 @@ namespace TempAndHumiTest
                     }
                 }
 
-                this.chart.Series["温度"].Points.DataBind(DtTemp.AsEnumerable(), "时间", "温度", "");
-                this.chart.Series["湿度"].Points.DataBind(DtHumi.AsEnumerable(), "时间", "湿度", "");
-
-            }else
+                DataTable Dt = new DataTable();
+                Dt.Columns.Add("温度", typeof(string));
+                Dt.Columns.Add("湿度", typeof(string));
+                Dt.Columns.Add("时间", typeof(DateTime));
+                
+                sql = "SELECT * FROM Test3 WHERE Num=@Num AND Time>@StartTime AND Time<@EndTime order by id ";
+                reader = db.ExecuteReader(sql, parameters);
+                using (reader)
+                {
+                    int i = 0;
+                    while (reader.Read())
+                    {
+                        i++;
+                        Dt.Rows.Add(reader.GetDouble(2).ToString("#0.00"), reader.GetDouble(3).ToString("#0.00"), reader.GetDateTime(4));
+                        if (i == 1500)
+                        {
+                            DtList.Add(Dt);
+                            Dt = new DataTable();
+                            Dt.Columns.Add("温度", typeof(string));
+                            Dt.Columns.Add("湿度", typeof(string));
+                            Dt.Columns.Add("时间", typeof(DateTime));
+                            i = 0;
+                        }
+                    }
+                    if (Dt.Rows.Count != 0) DtList.Add(Dt);
+                }
+                while (this.chart.ChartAreas[0].AxisX.ScaleView.IsZoomed)
+                {
+                    this.chart.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+                }
+                this.chart.Series["温度"].Points.DataBind(DtList[index].AsEnumerable(), "时间", "温度", "");
+                this.chart.Series["湿度"].Points.DataBind(DtList[index].AsEnumerable(), "时间", "湿度", "");
+                this.buttonNext.Visible = true;
+                this.labelPage.Text = "0/" + (DtList.Count - 1);
+                this.labelPage.Visible = true;
+                
+            }
+            else
             {
                 MessageBox.Show("该条件下没有数据", "提示");
             }
-
-
         }
-
+        
         private void labelClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -410,7 +425,11 @@ namespace TempAndHumiTest
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            initialChart(int.Parse(this.comboBoxNum.Text), this.dateTimePicker.Value);
+            index = 0;
+            this.labelPage.Visible = false;
+            this.buttonNext.Visible = false;
+            this.buttonPrev.Visible = false;
+            initialChart();
         }
 
         private void MenuItemExportAll_Click(object sender, EventArgs e)
@@ -439,6 +458,50 @@ namespace TempAndHumiTest
             }
             this.chart.Series["温度"].ChartType = type;
             this.chart.Series["湿度"].ChartType = type;
+        }
+        
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            buttonPrev.Visible = true;
+            if (index < DtList.Count - 1)
+            {
+                index++;
+            }
+            if(index == DtList.Count - 1)
+            {
+                buttonNext.Visible = false;
+            }
+            while (this.chart.ChartAreas[0].AxisX.ScaleView.IsZoomed)
+            {
+                this.chart.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+            }
+            this.chart.Series["温度"].Points.Clear();
+            this.chart.Series["湿度"].Points.Clear();
+            this.chart.Series["温度"].Points.DataBind(DtList[index].AsEnumerable(), "时间", "温度", "");
+            this.chart.Series["湿度"].Points.DataBind(DtList[index].AsEnumerable(), "时间", "湿度", "");
+            this.labelPage.Text = index + "/" + (DtList.Count-1);
+        }
+
+        private void buttonPrev_Click(object sender, EventArgs e)
+        {
+            buttonNext.Visible = true;
+            if (index > 0)
+            {
+                index--;
+            }
+            if(index == 0)
+            {
+                buttonPrev.Visible = false;
+            }
+            while (this.chart.ChartAreas[0].AxisX.ScaleView.IsZoomed)
+            {
+                this.chart.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+            }
+            this.chart.Series["温度"].Points.Clear();
+            this.chart.Series["湿度"].Points.Clear();
+            this.chart.Series["温度"].Points.DataBind(DtList[index].AsEnumerable(), "时间", "温度", "");
+            this.chart.Series["湿度"].Points.DataBind(DtList[index].AsEnumerable(), "时间", "湿度", "");
+            this.labelPage.Text = index+"/" + (DtList.Count - 1);
         }
     }
 }
